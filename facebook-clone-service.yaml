@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose -f docker-compose.yml --namespace=jake-huen --controller statefulset convert
+    kompose.version: 1.31.0 (a04ecdb9e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: facebook-clone
+  name: facebook-clone
+  namespace: jake-huen
+spec:
+  clusterIP: None
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.kompose.service: facebook-clone
+  type: ClusterIP
+status:
+  loadBalancer: {}

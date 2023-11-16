@@ -1,0 +1,24 @@
+name: Kompose Convert on Main Branch
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  kompose-convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Docker build & push to docker repo
+      run: |
+          docker login -u Jakeheon -p rlaxogjs8312@
+          docker build -t Jakeheon/facebook-clone2 -f Dockerfile .
+          docker push Jakeheon/facebook-clone2
+    # Add additional steps here to deploy the generated Kubernetes resources.
+    - name: CI Completed
+      run:  |
+        curl -H "Content-Type: application/json" -d '{ "repositoryName": "facebook-clone2", "githubUsername": "jake-huen"}' -X POST http://kluster.iptime.org:9001/github/action-completed
